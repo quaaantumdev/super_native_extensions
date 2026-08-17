@@ -164,7 +164,8 @@ class CargoKitPlugin implements Plugin<Project> {
                     ndkVersion = plugin.project.android.ndkVersion
                     sdkDirectory = plugin.project.android.sdkDirectory
                     minSdkVersion = plugin.project.android.defaultConfig.minSdkVersion.apiLevel as int
-                    compileSdkVersion = plugin.project.android.compileSdkVersion.substring(8) as int
+                    // AGP 9 reports e.g. "android-37.0" (minor SDK versions); keep only the major API level.
+                    compileSdkVersion = (plugin.project.android.compileSdkVersion.substring(8) =~ /\d+/)[0] as int
                     targetPlatforms = platforms
                     pluginFile = CargoKitPlugin.file
                     manifestDir = Paths.get(project.buildscript.sourceFile.parent, project.cargokit.manifestDir).toString()
